@@ -1,0 +1,21 @@
+{
+    "name": "widop/google-analytics-bundle",
+    "description": "Provides a way to use certificate-based authentication in server-to-server interactions for google analytics",
+    "keywords": [ "google", "analytics", "server" ],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Widop",
+            "email": "contact@widop.com"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "2.*",
+        "widop/http-adapter-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Widop\\GoogleAnalyticsBundle": "" }
+    },
+    "target-dir": "Widop/GoogleAnalyticsBundle"
+}

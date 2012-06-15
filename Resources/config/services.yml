@@ -1,0 +1,17 @@
+parameters:
+    widop_google_analytics.class: Widop\GoogleAnalyticsBundle\Model\GoogleAnalyticsService
+    widop_google_analytics.client.class: Widop\GoogleAnalyticsBundle\Model\Client
+    widop_google_analytics.query.class: Widop\GoogleAnalyticsBundle\Model\Query
+
+services:
+    widop_google_analytics:
+        class: %widop_google_analytics.class%
+        arguments: [ @widop_google_analytics.client ]
+
+    widop_google_analytics.client:
+        class: %widop_google_analytics.client.class%
+        calls:
+            - [ setContainer, [ @service_container ]]
+
+    widop_google_analytics.query:
+        class: %widop_google_analytics.query.class%
