@@ -15,3 +15,5 @@ services:
 
     widop_google_analytics.query:
         class: %widop_google_analytics.query.class%
+        calls:
+            - [ setIds, [ %widop_google_analytics.profile_id% ]]

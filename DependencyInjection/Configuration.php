@@ -32,6 +32,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('client_id')->isRequired()->cannotBeEmpty()->end()
+                ->scalarNode('profile_id')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('private_key_file')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('http_adapter')->defaultValue('widop_http_adapter.curl')->end()
             ->end();
