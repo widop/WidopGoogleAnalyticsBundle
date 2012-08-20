@@ -74,6 +74,16 @@ class Query
     private $maxResults = 1000;
 
     /**
+     * @var bool The Google analytics pretty print option
+     **/
+    private $prettyPrint = false;
+
+    /**
+     * @var string The Google analytics callback function
+     **/
+    private $callback;
+
+    /**
      * Gets the google analytics query ids.
      *
      * @return string
@@ -414,6 +424,50 @@ class Query
     }
 
     /**
+     * Gets the google analytics query for the prettyPrint option.
+     **/
+    public function getPrettyPrint()
+    {
+        return $this->prettyPrint;
+    }
+
+    /**
+     * Sets the google analytics query prettyPrint option.
+     *
+     * @param bool $prettyPrint The google analytics query pretty print option.
+     **/
+    public function setPrettyPrint(bool $prettyPrint)
+    {
+        $this->prettyPrint = $prettyPrint;
+    }
+
+    /**
+     * Checks the google analytics query for a callback.
+     **/
+    public function hasCallback()
+    {
+        return !empty($this->callback);
+    }
+
+    /**
+     * Gets the google analytics query for a callback.
+     **/
+    public function getCallback()
+    {
+        return $this->callback;
+    }
+
+    /**
+     * Sets the google analytics query callback.
+     *
+     * @param string The google analytics query callback function.
+     **/
+    public function setCallback($callback)
+    {
+        $this->callback = $callback;
+    }
+
+    /**
      * Builds the query.
      *
      * @param string $accessToken The access token used to build the query.
@@ -445,6 +499,14 @@ class Query
 
         if ($this->hasSorts()) {
             $uri .= '&sort='.urlencode(implode(',', $this->getSorts()));
+        }
+
+        if ($this->getPrettyPrint()) {
+            $uri .= '&prettyPrint=true';
+        }
+
+        if ($this->hasCallback()) {
+            $uri .= '&callback='.urlencode($this->callback);
         }
 
         return $uri;
