@@ -344,7 +344,17 @@ class Query
     }
 
     /**
-     * Gets the google analytics query segment
+     * Checks of the google analytics query has a segment.
+     * 
+     * @return boolean TRUE if the google analytics query has a segment, else FALSE.
+     */
+    public function hasSegment()
+    {
+        return strlen($this->segment) > 0;
+    }
+
+    /**
+     * Gets the google analytics query segment.
      *
      * @return string
      */
@@ -354,9 +364,9 @@ class Query
     }
 
     /**
-     * Sets the google analytics query segment
+     * Sets the google analytics query segment.
      *
-     * @param string $segment The google analytics query segment
+     * @param string $segment The google analytics query segment.
      */
     public function setSegment($segment)
     {
@@ -364,7 +374,7 @@ class Query
     }
 
     /**
-     * Gets the google analytics query start index
+     * Gets the google analytics query start index.
      *
      * @return int
      */
@@ -374,9 +384,9 @@ class Query
     }
 
     /**
-     * Sets the google analytics query start index
+     * Sets the google analytics query start index.
      *
-     * @param int $startIndex The google analytics start index
+     * @param int $startIndex The google analytics start index.
      */
     public function setStartIndex($startIndex)
     {
@@ -384,7 +394,7 @@ class Query
     }
 
     /**
-     * Gets the google analytics query max result count
+     * Gets the google analytics query max result count.
      *
      * @return int
      */
@@ -394,9 +404,9 @@ class Query
     }
 
     /**
-     * Sets the google analytics query max result count
+     * Sets the google analytics query max result count.
      *
-     * @param int $maxResults The google analytics query max result count
+     * @param int $maxResults The google analytics query max result count.
      */
     public function setMaxResults($maxResults)
     {
@@ -420,6 +430,10 @@ class Query
                'access_token='.$accessToken.'&'.
                'start-index='.$this->startIndex.'&'.
                'max-results='.$this->maxResults;
+
+        if ($this->hasSegment()) {
+            $uri .= '&segment='.urlencode($this->segment);
+        }
 
         if ($this->hasDimensions()) {
             $uri .= '&dimensions='.urlencode(implode(',', $this->getDimensions()));
