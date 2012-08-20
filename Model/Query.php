@@ -59,6 +59,21 @@ class Query
     private $filters;
 
     /**
+     * @var string The Google analytics query segment.
+     */
+    private $segment;
+
+    /**
+     * @var int The Google analytics query start index.
+     */
+    private $startIndex = 1;
+
+    /**
+     * @var int The Google analytics query max results.
+     */
+    private $maxResults = 1000;
+
+    /**
      * Gets the google analytics query ids.
      *
      * @return string
@@ -329,6 +344,66 @@ class Query
     }
 
     /**
+     * Gets the google analytics query segment
+     *
+     * @return string
+     */
+    public function getSegment()
+    {
+        return $this->segment;
+    }
+
+    /**
+     * Sets the google analytics query segment
+     *
+     * @param string $segment The google analytics query segment
+     */
+    public function setSegment($segment)
+    {
+        $this->segment = $segment;
+    }
+
+    /**
+     * Gets the google analytics query start index
+     *
+     * @return int
+     */
+    public function getStartIndex()
+    {
+        return $this->startIndex;
+    }
+
+    /**
+     * Sets the google analytics query start index
+     *
+     * @param int $startIndex The google analytics start index
+     */
+    public function setStartIndex($startIndex)
+    {
+        $this->startIndex = $startIndex;
+    }
+
+    /**
+     * Gets the google analytics query max result count
+     *
+     * @return int
+     */
+    public function getMaxResults()
+    {
+        return $this->maxResults;
+    }
+
+    /**
+     * Sets the google analytics query max result count
+     *
+     * @param int $maxResults The google analytics query max result count
+     */
+    public function setMaxResults($maxResults)
+    {
+        $this->maxResults = $maxResults;
+    }
+
+    /**
      * Builds the query.
      *
      * @param string $accessToken The access token used to build the query.
@@ -342,7 +417,9 @@ class Query
                'metrics='.urlencode(implode(',', $this->getMetrics())).'&'.
                'start-date='.$this->getStartDate()->format('Y-m-d').'&'.
                'end-date='.$this->getEndDate()->format('Y-m-d').'&'.
-               'access_token='.$accessToken;
+               'access_token='.$accessToken.'&'.
+               'start-index='.$this->startIndex.'&'.
+               'max-results='.$this->maxResults;
 
         if ($this->hasDimensions()) {
             $uri .= '&dimensions='.urlencode(implode(',', $this->getDimensions()));
