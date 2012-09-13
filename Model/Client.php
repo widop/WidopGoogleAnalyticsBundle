@@ -154,8 +154,9 @@ class Client extends ContainerAware
 
             $response = json_decode($this->httpAdapter->postContent(self::URL, $headers, $content));
 
-			if(isset($response->error))
-				throw new \ErrorException("Failed to retrieve access token, google responsed: " .$response->error);
+            if(isset($response->error)) {
+                throw new \ErrorException("Failed to retrieve access token, google responsed: " .$response->error);
+            }
 
             $this->accessToken = $response->access_token;
         }
