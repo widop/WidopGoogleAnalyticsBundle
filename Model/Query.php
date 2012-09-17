@@ -59,6 +59,31 @@ class Query
     private $filters;
 
     /**
+     * @var string The Google analytics query segment.
+     */
+    private $segment;
+
+    /**
+     * @var int The Google analytics query start index.
+     */
+    private $startIndex = 1;
+
+    /**
+     * @var int The Google analytics query max results.
+     */
+    private $maxResults = 1000;
+
+    /**
+     * @var bool The Google analytics pretty print option
+     **/
+    private $prettyPrint = false;
+
+    /**
+     * @var string The Google analytics callback function
+     **/
+    private $callback;
+
+    /**
      * Gets the google analytics query ids.
      *
      * @return string
@@ -329,6 +354,120 @@ class Query
     }
 
     /**
+     * Checks of the google analytics query has a segment.
+     * 
+     * @return boolean TRUE if the google analytics query has a segment, else FALSE.
+     */
+    public function hasSegment()
+    {
+        return strlen($this->segment) > 0;
+    }
+
+    /**
+     * Gets the google analytics query segment.
+     *
+     * @return string
+     */
+    public function getSegment()
+    {
+        return $this->segment;
+    }
+
+    /**
+     * Sets the google analytics query segment.
+     *
+     * @param string $segment The google analytics query segment.
+     */
+    public function setSegment($segment)
+    {
+        $this->segment = $segment;
+    }
+
+    /**
+     * Gets the google analytics query start index.
+     *
+     * @return int
+     */
+    public function getStartIndex()
+    {
+        return $this->startIndex;
+    }
+
+    /**
+     * Sets the google analytics query start index.
+     *
+     * @param int $startIndex The google analytics start index.
+     */
+    public function setStartIndex($startIndex)
+    {
+        $this->startIndex = $startIndex;
+    }
+
+    /**
+     * Gets the google analytics query max result count.
+     *
+     * @return int
+     */
+    public function getMaxResults()
+    {
+        return $this->maxResults;
+    }
+
+    /**
+     * Sets the google analytics query max result count.
+     *
+     * @param int $maxResults The google analytics query max result count.
+     */
+    public function setMaxResults($maxResults)
+    {
+        $this->maxResults = $maxResults;
+    }
+
+    /**
+     * Gets the google analytics query for the prettyPrint option.
+     **/
+    public function getPrettyPrint()
+    {
+        return $this->prettyPrint;
+    }
+
+    /**
+     * Sets the google analytics query prettyPrint option.
+     *
+     * @param bool $prettyPrint The google analytics query pretty print option.
+     **/
+    public function setPrettyPrint(bool $prettyPrint)
+    {
+        $this->prettyPrint = $prettyPrint;
+    }
+
+    /**
+     * Checks the google analytics query for a callback.
+     **/
+    public function hasCallback()
+    {
+        return !empty($this->callback);
+    }
+
+    /**
+     * Gets the google analytics query for a callback.
+     **/
+    public function getCallback()
+    {
+        return $this->callback;
+    }
+
+    /**
+     * Sets the google analytics query callback.
+     *
+     * @param string The google analytics query callback function.
+     **/
+    public function setCallback($callback)
+    {
+        $this->callback = $callback;
+    }
+
+    /**
      * Builds the query.
      *
      * @param string $accessToken The access token used to build the query.
@@ -342,7 +481,13 @@ class Query
                'metrics='.urlencode(implode(',', $this->getMetrics())).'&'.
                'start-date='.$this->getStartDate()->format('Y-m-d').'&'.
                'end-date='.$this->getEndDate()->format('Y-m-d').'&'.
-               'access_token='.$accessToken;
+               'access_token='.$accessToken.'&'.
+               'start-index='.$this->startIndex.'&'.
+               'max-results='.$this->maxResults;
+
+        if ($this->hasSegment()) {
+            $uri .= '&segment='.urlencode($this->segment);
+        }
 
         if ($this->hasDimensions()) {
             $uri .= '&dimensions='.urlencode(implode(',', $this->getDimensions()));
@@ -354,6 +499,14 @@ class Query
 
         if ($this->hasSorts()) {
             $uri .= '&sort='.urlencode(implode(',', $this->getSorts()));
+        }
+
+        if ($this->getPrettyPrint()) {
+            $uri .= '&prettyPrint=true';
+        }
+
+        if ($this->hasCallback()) {
+            $uri .= '&callback='.urlencode($this->callback);
         }
 
         return $uri;
