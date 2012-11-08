@@ -24,7 +24,7 @@ The bundle is under the MIT license. See the complete license [here](http://gith
 
 ## <a name="dependencies"/> Dependencies
 The bundle has a few dependencies:
-* WidopHttpAdapterBundle (used when executing HTTP requests [CURL, Buzz ...])
+* [WidopHttpAdapterBundle](https://github.com/widop/WidopHttpAdapterBundle) (used when executing HTTP requests [CURL, Buzz ...])
 
 ## <a name="todo"/> TODO
 * Cache the token
@@ -40,8 +40,8 @@ The bundle can be installed via composer (composer.json):
 ### <a name="foreword"/> Before starting
 * create a [google app](http://code.google.com/apis/console)
 * enable the google analytics service
-* create a service account
-* get the mail which will represent the client_id in your ```config.yml```
+* create a service account (on [google app](http://code.google.com/apis/console) in the Tab "API Access", choose "Create client ID" and then "Service account")
+* get the mail which will represent the client_id and project_id in your ```config.yml``` (or simply copy them from [google app](http://code.google.com/apis/console): use "Email Adress" as your client_id and "Client ID" as your profile_id)
 * download the private key and put it somewhere on your server (for instance you can put it in ```app/bin/```)
 
 ### <a name="conf"/> Configuration
@@ -52,11 +52,12 @@ The WidopGoogleAnalyticsBundle can be configured quite easily, and of course you
 # app/config/config_dev.yml
 widop_google_analytics:
     client_id: XXXXXXXXXXXX@developer.gserviceaccount.com
+    profile_id: XXXXXXXXXXXX.apps.googleusercontent.com
     private_key_file: %kernel.root_dir%/Resources/bin/myPrivateKey.p12
     http_adapter: widop_http_adapter.curl
 ```
 
-> The ```client_id``` and ```private_key_file``` parameters are mandatory while the ```http_adapter``` is optionnal. By default, this parameter is set to ```widop_http_adapter.curl```. If you want to change the http adapter you can take a look at the [WidopHttpAdapterBundle](https://github.com/widop/WidopHttpAdapterBundle) documentation.
+> The ```client_id```, ```profile_id``` and ```private_key_file``` parameters are mandatory while the ```http_adapter``` is optionnal. By default, this parameter is set to ```widop_http_adapter.curl```. If you want to change the http adapter you can take a look at the [WidopHttpAdapterBundle](https://github.com/widop/WidopHttpAdapterBundle) documentation.
 
 ### <a name="client"/> The client
 The first service created by the WidopGoogleAnalyticsBundle is the client.
