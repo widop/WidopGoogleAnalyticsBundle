@@ -24,7 +24,7 @@ The bundle is under the MIT license. See the complete license [here](http://gith
 
 ## <a name="dependencies"/> Dependencies
 The bundle has a few dependencies:
-* WidopHttpAdapterBundle (used when executing HTTP requests [CURL, Buzz ...])
+* [WidopHttpAdapterBundle](https://github.com/widop/WidopHttpAdapterBundle) (used when executing HTTP requests [CURL, Buzz ...])
 
 ## <a name="todo"/> TODO
 * Cache the token
