@@ -52,11 +52,12 @@ The WidopGoogleAnalyticsBundle can be configured quite easily, and of course you
 # app/config/config_dev.yml
 widop_google_analytics:
     client_id: XXXXXXXXXXXX@developer.gserviceaccount.com
+    profile_id: XXXXXXXXXXXX.apps.googleusercontent.com
     private_key_file: %kernel.root_dir%/Resources/bin/myPrivateKey.p12
     http_adapter: widop_http_adapter.curl
 ```
 
-> The ```client_id``` and ```private_key_file``` parameters are mandatory while the ```http_adapter``` is optionnal. By default, this parameter is set to ```widop_http_adapter.curl```. If you want to change the http adapter you can take a look at the [WidopHttpAdapterBundle](https://github.com/widop/WidopHttpAdapterBundle) documentation.
+> The ```client_id```, ```profile_id``` and ```private_key_file``` parameters are mandatory while the ```http_adapter``` is optionnal. By default, this parameter is set to ```widop_http_adapter.curl```. If you want to change the http adapter you can take a look at the [WidopHttpAdapterBundle](https://github.com/widop/WidopHttpAdapterBundle) documentation.
 
 ### <a name="client"/> The client
 The first service created by the WidopGoogleAnalyticsBundle is the client.
