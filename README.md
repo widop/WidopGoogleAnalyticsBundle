@@ -40,8 +40,8 @@ The bundle can be installed via composer (composer.json):
 ### <a name="foreword"/> Before starting
 * create a [google app](http://code.google.com/apis/console)
 * enable the google analytics service
-* create a service account
-* get the mail which will represent the client_id in your ```config.yml```
+* create a service account (on [google app](http://code.google.com/apis/console) in the Tab "API Access", choose "Create client ID" and then "Service account")
+* get the mail which will represent the client_id and project_id in your ```config.yml``` (or simply copy them from [google app](http://code.google.com/apis/console): use "Email Adress" as your client_id and "Client ID" as your profile_id)
 * download the private key and put it somewhere on your server (for instance you can put it in ```app/bin/```)
 
 ### <a name="conf"/> Configuration
