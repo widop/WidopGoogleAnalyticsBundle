@@ -355,7 +355,7 @@ class Query
 
     /**
      * Checks of the google analytics query has a segment.
-     * 
+     *
      * @return boolean TRUE if the google analytics query has a segment, else FALSE.
      */
     public function hasSegment()
@@ -381,6 +381,8 @@ class Query
     public function setSegment($segment)
     {
         $this->segment = $segment;
+
+        return $this;
     }
 
     /**
@@ -397,10 +399,14 @@ class Query
      * Sets the google analytics query start index.
      *
      * @param int $startIndex The google analytics start index.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function setStartIndex($startIndex)
     {
         $this->startIndex = $startIndex;
+
+        return $this;
     }
 
     /**
@@ -417,15 +423,19 @@ class Query
      * Sets the google analytics query max result count.
      *
      * @param int $maxResults The google analytics query max result count.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function setMaxResults($maxResults)
     {
         $this->maxResults = $maxResults;
+
+        return $this;
     }
 
     /**
      * Gets the google analytics query for the prettyPrint option.
-     **/
+     */
     public function getPrettyPrint()
     {
         return $this->prettyPrint;
@@ -435,15 +445,19 @@ class Query
      * Sets the google analytics query prettyPrint option.
      *
      * @param bool $prettyPrint The google analytics query pretty print option.
-     **/
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query
+     */
     public function setPrettyPrint(bool $prettyPrint)
     {
         $this->prettyPrint = $prettyPrint;
+
+        return $this;
     }
 
     /**
      * Checks the google analytics query for a callback.
-     **/
+     */
     public function hasCallback()
     {
         return !empty($this->callback);
@@ -451,7 +465,7 @@ class Query
 
     /**
      * Gets the google analytics query for a callback.
-     **/
+     */
     public function getCallback()
     {
         return $this->callback;
@@ -461,10 +475,12 @@ class Query
      * Sets the google analytics query callback.
      *
      * @param string The google analytics query callback function.
-     **/
+     */
     public function setCallback($callback)
     {
         $this->callback = $callback;
+
+        return $this;
     }
 
     /**
