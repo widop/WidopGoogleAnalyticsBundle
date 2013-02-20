@@ -36,6 +36,22 @@ The bundle can be installed via composer (composer.json):
     "widop/google-analytics-bundle": "dev-master"
 ```
 
+Enable the bundle(s) in the kernel:
+
+```php
+<?php
+// app/AppKernel.php
+
+public function registerBundles()
+{
+    $bundles = array(
+        // ...
+        new Widop\GoogleAnalyticsBundle\WidopGoogleAnalyticsBundle(),
+        new Widop\HttpAdapterBundle\WidopHttpAdapterBundle(),
+    );
+}
+```
+
 ## <a name="setup"/> Setup
 ### <a name="foreword"/> Before starting
 * create a [google app](http://code.google.com/apis/console)
