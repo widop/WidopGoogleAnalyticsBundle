@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the Widop package.
+ * This file is part of the Wid'op package.
  *
- * (c) Widop <contact@widop.com>
+ * (c) Wid'op <contact@widop.com>
  *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code.
@@ -18,10 +18,8 @@ namespace Widop\GoogleAnalyticsBundle\Model;
  */
 class GoogleAnalyticsService
 {
-    /**
-     * @var \Widop\GoogleAnalyticsBundle\Model\Client The google analytics client.
-     */
-    private $client;
+    /** @var \Widop\GoogleAnalyticsBundle\Model\Client */
+    protected $client;
 
     /**
      * Google analytics service constructor.
@@ -36,7 +34,7 @@ class GoogleAnalyticsService
     /**
      * Gets the google analytics client.
      *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Client
+     * @return \Widop\GoogleAnalyticsBundle\Model\Client The google analytics client.
      */
     public function getClient()
     {
@@ -47,20 +45,18 @@ class GoogleAnalyticsService
      * Sets the google analytics client.
      *
      * @param \Widop\GoogleAnalyticsBundle\Model\Client $client The google analytics client.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\GoogleAnalyticsService
      */
     public function setClient(Client $client)
     {
         $this->client = $client;
-
-        return $this;
     }
 
     /**
-     * Query the google analytics service.
+     * Queries the google analytics service.
      *
      * @param \Widop\GoogleAnalyticsBundle\Model\Query $query The google analytics query.
+     *
+     * @throws \Exception If an error occured when querying the google analytics service.
      *
      * @return \Widop\GoogleAnalyticsBundle\Model\Response The google analytics response.
      */
@@ -69,8 +65,13 @@ class GoogleAnalyticsService
         $uri = $query->build($this->getClient()->getAccessToken());
         $json = json_decode($this->getClient()->getHttpAdapter()->getContent($uri));
 
-        $response = new Response();
+        if (isset($json->error)) {
+            throw new \Exception(
+                sprintf('An error occured when querying the google analytics service (%s).', $json->error->message)
+            );
+        }
 
+        $response = new Response();
         if (isset($json->rows)) {
             $response->setRows($json->rows);
         }
