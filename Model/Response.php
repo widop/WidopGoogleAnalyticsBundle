@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the Widop package.
+ * This file is part of the Wid'op package.
  *
- * (c) Widop <contact@widop.com>
+ * (c) Wid'op <contact@widop.com>
  *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code.
@@ -18,10 +18,8 @@ namespace Widop\GoogleAnalyticsBundle\Model;
  */
 class Response
 {
-    /**
-     * @var array The google analytics response rows.
-     */
-    private $rows;
+    /** @var array */
+    protected $rows;
 
     /**
      * The google analytics response constructor.
@@ -34,9 +32,19 @@ class Response
     }
 
     /**
+     * Checks if the response has rows.
+     *
+     * @return boolean TRUE if the respone has rows else FALSE.
+     */
+    public function hasRows()
+    {
+        return !empty($this->rows);
+    }
+
+    /**
      * Gets the google analytics response rows.
      *
-     * @return array
+     * @return array The google analytics response rows.
      */
     public function getRows()
     {
@@ -47,8 +55,6 @@ class Response
      * Sets the google analytics response rows.
      *
      * @param array $rows The google analytics response rows.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Response
      */
     public function setRows(array $rows)
     {
@@ -57,21 +63,15 @@ class Response
         foreach ($rows as $row) {
             $this->addRow($row);
         }
-
-        return $this;
     }
 
     /**
      * Adds a rown to the google analytics response.
      *
      * @param array $row The row to add.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Response
      */
     public function addRow(array $row)
     {
         $this->rows[] = $row;
-
-        return $this;
     }
 }

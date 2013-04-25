@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the Widop package.
+ * This file is part of the Wid'op package.
  *
- * (c) Widop <contact@widop.com>
+ * (c) Wid'op <contact@widop.com>
  *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code.
@@ -18,75 +18,67 @@ namespace Widop\GoogleAnalyticsBundle\Model;
  */
 class Query
 {
-    /**
-     * @const The Google analytics service URL.
-     */
+    /** @const The Google analytics service URL. */
     const URL = 'https://www.googleapis.com/analytics/v3/data/ga';
 
+    /** @var string */
+    protected $ids;
+
+    /** @var \DateTime */
+    protected $startDate;
+
+    /** @var \DateTime */
+    protected $endDate;
+
+    /** @var array */
+    protected $metrics;
+
+    /** @var array */
+    protected $dimensions;
+
+    /** @var array */
+    protected $sorts;
+
+    /** @var array */
+    protected $filters;
+
+    /** @var string */
+    protected $segment;
+
+    /** @var integer */
+    protected $startIndex;
+
+    /** @var integer */
+    protected $maxResults;
+
+    /** @var boolean */
+    protected $prettyPrint;
+
+    /** @var string */
+    protected $callback;
+
     /**
-     * @var string The Google analytics query ids.
+     * Creates a google analytics query.
+     *
+     * @param string $ids The google analytics query ids.
      */
-    private $ids;
+    public function __construct($ids)
+    {
+        $this->setIds($ids);
 
-    /**
-     * @var \DateTime The Google analytics query start date.
-     */
-    private $startDate;
-
-    /**
-     * @var \DateTime The Google analytics query end date.
-     */
-    private $endDate;
-
-    /**
-     * @var array The Google analytics query metrics.
-     */
-    private $metrics;
-
-    /**
-     * @var array The Google analytics query dimensions.
-     */
-    private $dimensions;
-
-    /**
-     * @var array The Google analytics query sorts.
-     */
-    private $sorts;
-
-    /**
-     * @var array The Google analytics query filters.
-     */
-    private $filters;
-
-    /**
-     * @var string The Google analytics query segment.
-     */
-    private $segment;
-
-    /**
-     * @var int The Google analytics query start index.
-     */
-    private $startIndex = 1;
-
-    /**
-     * @var int The Google analytics query max results.
-     */
-    private $maxResults = 1000;
-
-    /**
-     * @var bool The Google analytics pretty print option
-     **/
-    private $prettyPrint = false;
-
-    /**
-     * @var string The Google analytics callback function
-     **/
-    private $callback;
+        $this->metrics = array();
+        $this->dimensions = array();
+        $this->sorts = array();
+        $this->filters = array();
+        $this->startIndex = 1;
+        $this->maxResults = 1000;
+        $this->prettyPrint = false;
+    }
 
     /**
      * Gets the google analytics query ids.
      *
-     * @return string
+     * @return string The google analytics query ids.
      */
     public function getIds()
     {
@@ -97,20 +89,26 @@ class Query
      * Sets the google analytics query ids.
      *
      * @param string $ids The google analytics query ids.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function setIds($ids)
     {
         $this->ids = $ids;
+    }
 
-        return $this;
+    /**
+     * Checks if the google analytics query has a start date.
+     *
+     * @return boolean TRUE if the google analytics query has a start date.
+     */
+    public function hasStartDate()
+    {
+        return $this->startDate !== null;
     }
 
     /**
      * Gets the google analytics query start date.
      *
-     * @return \DateTime
+     * @return \DateTime The google analytics query start date.
      */
     public function getStartDate()
     {
@@ -121,20 +119,26 @@ class Query
      * Sets the google analytics query start date.
      *
      * @param \DateTime $startDate The google analytics query start date.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function setStartDate(\DateTime $startDate = null)
     {
         $this->startDate = $startDate;
+    }
 
-        return $this;
+    /**
+     * Checks if the google analytics query has an end date.
+     *
+     * @return boolean TRUE if the google analytics query has an ende date else FALSE.
+     */
+    public function hasEndDate()
+    {
+        return $this->endDate !== null;
     }
 
     /**
      * Gets the google analytics query end date.
      *
-     * @return \DateTime
+     * @return \DateTime The google analytics query end date.
      */
     public function getEndDate()
     {
@@ -145,20 +149,26 @@ class Query
      * Sets the google analytics query end date.
      *
      * @param \DateTime $endDate The google analytics query end date.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function setEndDate(\DateTime $endDate = null)
     {
         $this->endDate = $endDate;
+    }
 
-        return $this;
+    /**
+     * Checks if the google analytics query has metrics.
+     *
+     * @return boolean TRUE if the google analytics query has metrics else FALSE.
+     */
+    public function hasMetrics()
+    {
+        return !empty($this->metrics);
     }
 
     /**
      * Gets the google analytics query metrics.
      *
-     * @return array
+     * @return array The google analytics query metrics.
      */
     public function getMetrics()
     {
@@ -169,8 +179,6 @@ class Query
      * Sets the google analytics query metrics.
      *
      * @param array $metrics The google analytics query metrics.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function setMetrics(array $metrics)
     {
@@ -179,22 +187,16 @@ class Query
         foreach ($metrics as $metric) {
             $this->addMetric($metric);
         }
-
-        return $this;
     }
 
     /**
      * Adds a the google analytics metric to the query.
      *
      * @param string $metric The google analytics metric to add.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function addMetric($metric)
     {
         $this->metrics[] = $metric;
-
-        return $this;
     }
 
     /**
@@ -210,7 +212,7 @@ class Query
     /**
      * Gets the google analytics query dimensions.
      *
-     * @return array
+     * @return array The google analytics query dimensions.
      */
     public function getDimensions()
     {
@@ -221,8 +223,6 @@ class Query
      * Sets the google analytics query dimensions.
      *
      * @param array $dimensions The google analytics query dimensions.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function setDimensions(array $dimensions)
     {
@@ -231,28 +231,22 @@ class Query
         foreach ($dimensions as $dimension) {
             $this->addDimension($dimension);
         }
-
-        return $this;
     }
 
     /**
-     * Adds a google analytics query dimension/
+     * Adds a google analytics query dimension.
      *
      * @param string $dimension the google analytics dimension to add.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function addDimension($dimension)
     {
         $this->dimensions[] = $dimension;
-
-        return $this;
     }
 
     /**
-     * Checks if the google analytics query has sorts.
+     * Checks if the google analytics query is ordered.
      *
-     * @return boolean TRUE if the google analytics query has sorts else FALSE.
+     * @return boolean TRUE if the google analytics query is ordered else FALSE.
      */
     public function hasSorts()
     {
@@ -262,7 +256,7 @@ class Query
     /**
      * Gets the google analytics query sorts.
      *
-     * @return array
+     * @return array The google analytics query sorts.
      */
     public function getSorts()
     {
@@ -273,8 +267,6 @@ class Query
      * Sets the google analytics query sorts.
      *
      * @param array $sorts The google analytics query sorts.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function setSorts(array $sorts)
     {
@@ -283,22 +275,16 @@ class Query
         foreach ($sorts as $sort) {
             $this->addSort($sort);
         }
-
-        return $this;
     }
 
     /**
      * Adds a google analytics query sort.
      *
      * @param string $sort A google analytics query sort to add.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function addSort($sort)
     {
         $this->sorts[] = $sort;
-
-        return $this;
     }
 
     /**
@@ -314,7 +300,7 @@ class Query
     /**
      * Gets the google analytics query filters.
      *
-     * @return array
+     * @return array The google analytics query filters.
      */
     public function getFilters()
     {
@@ -325,8 +311,6 @@ class Query
      * Sets the google analytics query filters.
      *
      * @param array $filters The google analytics query filters.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function setFilters(array $filters)
     {
@@ -335,38 +319,32 @@ class Query
         foreach ($filters as $filter) {
             $this->addFilter($filter);
         }
-
-        return $this;
     }
 
     /**
      * Adds the google analytics filter.
      *
      * @param string $filter the google analytics filter to add.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
      */
     public function addFilter($filter)
     {
         $this->filters[] = $filter;
-
-        return $this;
     }
 
     /**
      * Checks of the google analytics query has a segment.
      *
-     * @return boolean TRUE if the google analytics query has a segment, else FALSE.
+     * @return boolean TRUE if the google analytics query has a segment else FALSE.
      */
     public function hasSegment()
     {
-        return strlen($this->segment) > 0;
+        return $this->segment !== null;
     }
 
     /**
      * Gets the google analytics query segment.
      *
-     * @return string
+     * @return string The google analytics query segment.
      */
     public function getSegment()
     {
@@ -381,14 +359,12 @@ class Query
     public function setSegment($segment)
     {
         $this->segment = $segment;
-
-        return $this;
     }
 
     /**
      * Gets the google analytics query start index.
      *
-     * @return int
+     * @return integer The google analytics query start index.
      */
     public function getStartIndex()
     {
@@ -398,21 +374,17 @@ class Query
     /**
      * Sets the google analytics query start index.
      *
-     * @param int $startIndex The google analytics start index.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
+     * @param integer $startIndex The google analytics start index.
      */
     public function setStartIndex($startIndex)
     {
         $this->startIndex = $startIndex;
-
-        return $this;
     }
 
     /**
      * Gets the google analytics query max result count.
      *
-     * @return int
+     * @return integer The google analytics query max result count.
      */
     public function getMaxResults()
     {
@@ -422,19 +394,17 @@ class Query
     /**
      * Sets the google analytics query max result count.
      *
-     * @param int $maxResults The google analytics query max result count.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
+     * @param integer $maxResults The google analytics query max result count.
      */
     public function setMaxResults($maxResults)
     {
         $this->maxResults = $maxResults;
-
-        return $this;
     }
 
     /**
-     * Gets the google analytics query for the prettyPrint option.
+     * Gets the google analytics query prettyPrint option.
+     *
+     * @return boolean The google analytics query prettyPrint option.
      */
     public function getPrettyPrint()
     {
@@ -444,19 +414,17 @@ class Query
     /**
      * Sets the google analytics query prettyPrint option.
      *
-     * @param bool $prettyPrint The google analytics query pretty print option.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Query
+     * @param boolean $prettyPrint The google analytics query pretty print option.
      */
-    public function setPrettyPrint(bool $prettyPrint)
+    public function setPrettyPrint($prettyPrint)
     {
         $this->prettyPrint = $prettyPrint;
-
-        return $this;
     }
 
     /**
      * Checks the google analytics query for a callback.
+     *
+     * @return boolean TRUE if the google analytics query has a callback else FALSE.
      */
     public function hasCallback()
     {
@@ -464,7 +432,9 @@ class Query
     }
 
     /**
-     * Gets the google analytics query for a callback.
+     * Gets the google analytics query callback.
+     *
+     * @return string The google analytics query callback.
      */
     public function getCallback()
     {
@@ -474,13 +444,11 @@ class Query
     /**
      * Sets the google analytics query callback.
      *
-     * @param string The google analytics query callback function.
+     * @param string The google analytics query callback.
      */
     public function setCallback($callback)
     {
         $this->callback = $callback;
-
-        return $this;
     }
 
     /**
@@ -488,43 +456,44 @@ class Query
      *
      * @param string $accessToken The access token used to build the query.
      *
-     * @return string
+     * @return string The builded query.
      */
     public function build($accessToken)
     {
-        $uri = self::URL.'?'.
-               'ids='.urlencode($this->getIds()).'&'.
-               'metrics='.urlencode(implode(',', $this->getMetrics())).'&'.
-               'start-date='.$this->getStartDate()->format('Y-m-d').'&'.
-               'end-date='.$this->getEndDate()->format('Y-m-d').'&'.
-               'access_token='.$accessToken.'&'.
-               'start-index='.$this->startIndex.'&'.
-               'max-results='.$this->maxResults;
+        $query = array(
+            'ids'          => $this->getIds(),
+            'metrics'      => implode(',', $this->getMetrics()),
+            'start-date'   => $this->getStartDate()->format('Y-m-d'),
+            'end-date'     => $this->getEndDate()->format('Y-m-d'),
+            'access_token' => $accessToken,
+            'start-index'  => $this->getStartIndex(),
+            'max-results'  => $this->getMaxResults(),
+        );
 
         if ($this->hasSegment()) {
-            $uri .= '&segment='.urlencode($this->segment);
+            $query['segment'] = $this->getSegment();
         }
 
         if ($this->hasDimensions()) {
-            $uri .= '&dimensions='.urlencode(implode(',', $this->getDimensions()));
+            $query['dimensions'] = implode(',', $this->getDimensions());
         }
 
         if ($this->hasFilters()) {
-            $uri .= '&filters='.urlencode(implode(',', $this->getFilters()));
+            $query['filters'] = implode(',', $this->getFilters());
         }
 
         if ($this->hasSorts()) {
-            $uri .= '&sort='.urlencode(implode(',', $this->getSorts()));
+            $query['sort'] = implode(',', $this->getSorts());
         }
 
         if ($this->getPrettyPrint()) {
-            $uri .= '&prettyPrint=true';
+            $query['prettyPrint'] = 'true';
         }
 
         if ($this->hasCallback()) {
-            $uri .= '&callback='.urlencode($this->callback);
+            $query['callback'] = $this->getCallback();
         }
 
-        return $uri;
+        return sprintf('%s?%s', self::URL, http_build_query($query));
     }
 }

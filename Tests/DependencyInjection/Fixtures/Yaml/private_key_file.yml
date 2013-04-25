@@ -1,0 +1,4 @@
+widop_google_analytics:
+    client_id:    "client_id"
+    profile_id:   "profile_id"
+    http_adapter: "widop_http_adapter.curl"

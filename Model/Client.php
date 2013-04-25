@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the Widop package.
+ * This file is part of the Wid'op package.
  *
- * (c) Widop <contact@widop.com>
+ * (c) Wid'op <contact@widop.com>
  *
  * For the full copyright and license information, please read the LICENSE
  * file that was distributed with this source code.
@@ -11,64 +11,51 @@
 
 namespace Widop\GoogleAnalyticsBundle\Model;
 
-use Symfony\Component\DependencyInjection\ContainerAware,
-    Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Widop\HttpAdapterBundle\Model\HttpAdapterInterface;
 
 /**
- * Client.
+ * Google analytics client.
  *
  * @author GeLo <geloen.eric@gmail.com>
  */
-class Client extends ContainerAware
+class Client
 {
-    /**
-     * @const The google OAuth Rest URL.
-     */
+    /** @const The google OAuth Rest URL. */
     const URL = 'https://accounts.google.com/o/oauth2/token';
 
-    /**
-     * @const The google OAuth scope.
-     */
+    /** @const The google OAuth scope. */
     const SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
 
-    /**
-     * @var string The client ID.
-     */
-    private $clientId;
+    /** @var string */
+    protected $clientId;
+
+    /** @var string */
+    protected $privateKeyFile;
+
+    /** @var \Widop\HttpAdapterBundle\Model\HttpAdapterInterface */
+    protected $httpAdapter;
+
+    /** @var string */
+    protected $accessToken;
 
     /**
-     * @var string The absolute private key file path.
+     * Creates a client.
+     *
+     * @param string                                              $clientId       The client ID.
+     * @param string                                              $privateKeyFile The absolute private key file path.
+     * @param \Widop\HttpAdapterBundle\Model\HttpAdapterInterface $httpAdapter    The http adapter.
      */
-    private $privateKeyFile;
-
-    /**
-     * @var \Widop\HttpAdapterBundle\Model\HttpAdapterInterface The http adapter used by the client.
-     */
-    private $httpAdapter;
-
-    /**
-     * @var string The google OAuth acces token.
-     */
-    private $accessToken;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
+    public function __construct($clientId, $privateKeyFile, HttpAdapterInterface $httpAdapter)
     {
-        parent::setContainer($container);
-
-        $this->setClientId($this->container->getParameter('widop_google_analytics.client_id'));
-        $this->setPrivateKeyFile($this->container->getParameter('widop_google_analytics.private_key_file'));
-        $this->setHttpAdapter($this->container->get($this->container->getParameter('widop_google_analytics.http_adapter')));
+        $this->setClientId($clientId);
+        $this->setPrivateKeyFile($privateKeyFile);
+        $this->setHttpAdapter($httpAdapter);
     }
 
     /**
      * Gets the client ID.
      *
-     * @return string
+     * @return string The client ID.
      */
     public function getClientId()
     {
@@ -79,20 +66,16 @@ class Client extends ContainerAware
      * Sets the client ID.
      *
      * @param string $clientId The client ID.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Client
      */
     public function setClientId($clientId)
     {
         $this->clientId = $clientId;
-
-        return $this;
     }
 
     /**
      * Gets the absolute private key file path.
      *
-     * @return string
+     * @return string The absolute private key file path.
      */
     public function getPrivateKeyFile()
     {
@@ -104,19 +87,23 @@ class Client extends ContainerAware
      *
      * @param string $privateKeyFile The absolute private key file path.
      *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Client
+     * @throws \InvalidArgumentException If the private key file does not exist.
      */
     public function setPrivateKeyFile($privateKeyFile)
     {
-        $this->privateKeyFile = $privateKeyFile;
+        if (!file_exists($privateKeyFile)) {
+            throw new \InvalidArgumentException(
+                sprintf('The PKCS 12 certificate "%s" does not exist.', $privateKeyFile)
+            );
+        }
 
-        return $this;
+        $this->privateKeyFile = $privateKeyFile;
     }
 
     /**
-     * Gets the Http Adapter used by the client.
+     * Gets the http adapter.
      *
-     * @return \Widop\HttpAdapterBundle\Model\HttpAdapterInterface
+     * @return \Widop\HttpAdapterBundle\Model\HttpAdapterInterface The http adapter.
      */
     public function getHttpAdapter()
     {
@@ -124,23 +111,21 @@ class Client extends ContainerAware
     }
 
     /**
-     * Sets the Http Adapter used by the client.
+     * Sets the http adapter.
      *
-     * @param \Widop\HttpAdapterBundle\Model\HttpAdapterInterface $httpAdapter The Http Adapter used by the client.
-     *
-     * @return \Widop\GoogleAnalyticsBundle\Model\Client
+     * @param \Widop\HttpAdapterBundle\Model\HttpAdapterInterface $httpAdapter The http adapter.
      */
     public function setHttpAdapter(HttpAdapterInterface $httpAdapter)
     {
         $this->httpAdapter = $httpAdapter;
-
-        return $this;
     }
 
     /**
      * Gets the google OAuth access token.
      *
-     * @return string
+     * @throws \Exception If the access token can not be retrieved.
+     *
+     * @return string The access token.
      */
     public function getAccessToken()
     {
@@ -154,8 +139,8 @@ class Client extends ContainerAware
 
             $response = json_decode($this->httpAdapter->postContent(self::URL, $headers, $content));
 
-            if(isset($response->error)) {
-                throw new \ErrorException("Failed to retrieve access token, google responsed: " .$response->error);
+            if (isset($response->error)) {
+                throw new \Exception(sprintf('Failed to retrieve access token (%s).', $response->error));
             }
 
             $this->accessToken = $response->access_token;
@@ -167,65 +152,67 @@ class Client extends ContainerAware
     /**
      * Generates the JWT in order to get the access token.
      *
-     * @return string
+     * @return string The Json Web Token (JWT).
      */
-    private function generateJsonWebToken()
+    protected function generateJsonWebToken()
     {
         $exp = new \DateTime('+1 hours');
         $iat = new \DateTime();
 
-        $jwtHeader = base64_encode(json_encode(array(
-            'alg' => 'RS256',
-            'typ' => 'JWT',
-        )));
+        $jwtHeader = base64_encode(json_encode(array('alg' => 'RS256', 'typ' => 'JWT')));
 
-        $jwtClaimSet = base64_encode(json_encode(array(
-            'iss'   => $this->clientId,
-            'scope' => self::SCOPE,
-            'aud'   => self::URL,
-            'exp'   => $exp->getTimestamp(),
-            'iat'   => $iat->getTimestamp(),
-        )));
+        $jwtClaimSet = base64_encode(
+            json_encode(
+                array(
+                    'iss'   => $this->clientId,
+                    'scope' => self::SCOPE,
+                    'aud'   => self::URL,
+                    'exp'   => $exp->getTimestamp(),
+                    'iat'   => $iat->getTimestamp(),
+                )
+            )
+        );
 
         $jwtSignature = base64_encode($this->generateSignature($jwtHeader.'.'.$jwtClaimSet));
 
-        return $jwtHeader.'.'.$jwtClaimSet.'.'.$jwtSignature;
+        return sprintf('%s.%s.%s', $jwtHeader, $jwtClaimSet, $jwtSignature);
     }
 
     /**
-     * Generated the jwt signature according to the private key file and the jwt content.
+     * Generates the JWT signature according to the private key file and the JWT content.
      *
-     * @param string $jwt The JWT content.
+     * @param string $jsonWebToken The JWT content.
      *
-     * @return string
+     * @throws \Exception If an error occured when generating the signature.
+     *
+     * @return string The JWT signature.
      */
-    private function generateSignature($jwt)
+    protected function generateSignature($jsonWebToken)
     {
         if (!function_exists('openssl_x509_read')) {
-            throw new \Exception();
+            throw new \Exception('The openssl extension is required.');
         }
 
         $certificate = file_get_contents($this->privateKeyFile);
 
         $certificates = array();
         if (!openssl_pkcs12_read($certificate, $certificates, 'notasecret')) {
-            throw new \Exception();
+            throw new \Exception('An error occured when parsing the PKCS 12 certificate.');
         }
 
         if (!isset($certificates['pkey']) || !$certificates['pkey']) {
-            throw new \Exception();
+            throw new \Exception('The PKCS 12 certificate is not valid.');
         }
 
         $ressource = openssl_pkey_get_private($certificates['pkey']);
 
         if (!$ressource) {
-            throw new \Exception();
+            throw new \Exception('An error occurend when fetching the PKCS 12 private key.');
         }
 
         $signature = null;
-
-        if (!openssl_sign($jwt, $signature, $ressource, 'sha256')) {
-            throw new \Exception();
+        if (!openssl_sign($jsonWebToken, $signature, $ressource, 'sha256')) {
+            throw new \Exception('An error occurend when validating the PKCS 12 certificate.');
         }
 
         openssl_pkey_free($ressource);
