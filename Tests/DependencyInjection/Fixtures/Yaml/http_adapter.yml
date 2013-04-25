@@ -1,0 +1,5 @@
+widop_google_analytics:
+    client_id:        "client_id"
+    profile_id:       "profile_id"
+    private_key_file: "%bundle.dir%/Tests/Fixtures/certificate.p12"
+    http_adapter:     "foo"
