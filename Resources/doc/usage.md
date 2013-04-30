@@ -20,7 +20,7 @@ your environment (dev, test, prod):
 # app/config/config.yml
 widop_google_analytics:
     client_id:        "XXXXXXXXXXXX@developer.gserviceaccount.com"
-    profile_id:       "XXXXXXXXXXXX.apps.googleusercontent.com"
+    profile_id:       "ga:XXXXXXXX"
     private_key_file: "%kernel.root_dir%/Resources/bin/myPrivateKey.p12"
     http_adapter:     "widop_http_adapter.curl"
 ```
