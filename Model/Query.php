@@ -71,7 +71,7 @@ class Query
         $this->sorts = array();
         $this->filters = array();
         $this->startIndex = 1;
-        $this->maxResults = 1000;
+        $this->maxResults = 10000;
         $this->prettyPrint = false;
     }
 

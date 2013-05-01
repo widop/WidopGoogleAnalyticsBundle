@@ -55,7 +55,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->query->hasFilters());
         $this->assertFalse($this->query->hasSegment());
         $this->assertSame(1, $this->query->getStartIndex());
-        $this->assertSame(1000, $this->query->getMaxResults());
+        $this->assertSame(10000, $this->query->getMaxResults());
         $this->assertFalse($this->query->getPrettyPrint());
         $this->assertFalse($this->query->hasCallback());
     }
