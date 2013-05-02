@@ -62,20 +62,21 @@ class GoogleAnalyticsService
      */
     public function query(Query $query)
     {
-        $uri = $query->build($this->getClient()->getAccessToken());
-        $json = json_decode($this->getClient()->getHttpAdapter()->getContent($uri));
+        $accessToken = $this->getClient()->getAccessToken();
+        $uri = $query->build($accessToken);
+        $content = $this->getClient()->getHttpAdapter()->getContent($uri);
 
-        if (isset($json->error)) {
+        $json = json_decode($content, true);
+
+        if (isset($json['error'])) {
             throw new \Exception(
-                sprintf('An error occured when querying the google analytics service (%s).', $json->error->message)
+                sprintf(
+                    'An error occured when querying the google analytics service (%s).',
+                    $json['error']['message']
+                )
             );
         }
 
-        $response = new Response();
-        if (isset($json->rows)) {
-            $response->setRows($json->rows);
-        }
-
-        return $response;
+        return new Response($json);
     }
 }
