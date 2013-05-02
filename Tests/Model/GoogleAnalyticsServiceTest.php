@@ -83,17 +83,46 @@ class GoogleAnalyticsServiceTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('token'))
             ->will($this->returnValue('uri'));
 
-        $rows = array(array('foo'), array('bar'));
+        $expected = array(
+            'profileInfo'         => array('profile' => 'bar'),
+            'kind'                => 'kind',
+            'id'                  => 'id',
+            'query'               => array('query' => 'bar'),
+            'selfLink'            => 'selfLink',
+            'previousLink'        => 'previousLink',
+            'nextLink'            => 'nextLink',
+            'startIndex'          => 1,
+            'itemsPerPage'        => 10000,
+            'totalResults'        => 10000,
+            'containsSampledData' => false,
+            'columnHeaders'       => array('column' => 'bar'),
+            'totalsForAllResults' => array('total' => 'bar'),
+            'rows'                => array('row' => 'bar'),
+        );
 
         $this->httpAdapterMock
             ->expects($this->once())
             ->method('getContent')
             ->with($this->equalTo('uri'))
-            ->will($this->returnValue(json_encode(array('rows' => $rows))));
+            ->will($this->returnValue(json_encode($expected)));
 
         $response = $this->service->query($this->queryMock);
 
-        $this->assertSame($rows, $response->getRows());
+        $this->assertSame($expected['profileInfo'], $response->getProfileInfo());
+        $this->assertSame($expected['kind'], $response->getKind());
+        $this->assertSame($expected['id'], $response->getId());
+        $this->assertSame($expected['query'], $response->getQuery());
+        $this->assertSame($expected['selfLink'], $response->getSelfLink());
+        $this->assertSame($expected['previousLink'], $response->getPreviousLink());
+        $this->assertSame($expected['nextLink'], $response->getNextLink());
+        $this->assertSame($expected['startIndex'], $response->getStartIndex());
+        $this->assertSame($expected['itemsPerPage'], $response->getItemsPerPage());
+        $this->assertSame($expected['totalResults'], $response->getTotalResults());
+        $this->assertSame($expected['containsSampledData'], $response->containsSampledData());
+        $this->assertSame($expected['columnHeaders'], $response->getColumnHeaders());
+        $this->assertSame($expected['totalsForAllResults'], $response->getTotalsForAllResults());
+        $this->assertTrue($response->hasRows());
+        $this->assertSame($expected['rows'], $response->getRows());
     }
 
     /**
