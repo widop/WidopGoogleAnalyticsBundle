@@ -89,9 +89,23 @@ When querying the google analytics service, the `query` method returns a `Respon
 $query = $this->container->get('widop_google_analytics.query');
 // Configure the query.
 
+// Query the Google Analytics service.
 $response = $this->container->get('widop_google_analytics')->query($query);
 
-foreach ($response->getRows() as $row) {
-    // ...
-}
+// Play with the response informations.
+$profileInfo = $this->getProfileInfo();
+$kind = $this->getKind();
+$id = $this->getId();
+$query = $this->getQuery();
+$selfLink = $this->getSelfLink();
+$previousLink = $this->getPreviousLink();
+$nextLink = $this->getNextLink();
+$startIndex = $this->getStartIndex();
+$itemsPerPage = $this->getItemsPerPage();
+$totalResults = $this->getTotalResults();
+$containsSampledData = $this->containsSampledData();
+$columnHeaders = $this->getColumnHeaders();
+$totalForAllResults = $this->getTotalsForAllResults();
+$hasRows = $this->hasRows();
+$rows = $this->getRows();
 ```
