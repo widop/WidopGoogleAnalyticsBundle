@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### 1.0.2 (????-??-??
+
+* 0faf786 - Add branch alias
+
 ### 1.0.1 (2013-05-02)
 
 * 2df0fc9 - [Response] Add missing informations
