@@ -45,10 +45,14 @@ class GoogleAnalyticsService
      * Sets the google analytics client.
      *
      * @param \Widop\GoogleAnalyticsBundle\Model\Client $client The google analytics client.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\GoogleAnalyticsService The google analytics service.
      */
     public function setClient(Client $client)
     {
         $this->client = $client;
+
+        return $this;
     }
 
     /**
