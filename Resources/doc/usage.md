@@ -16,7 +16,7 @@
 The `WidopGoogleAnalyticsBundle` can be configured quite easily, and of course you can change the configuration given
 your environment (dev, test, prod):
 
-``` yml
+``` yaml
 # app/config/config.yml
 widop_google_analytics:
     client_id:        "XXXXXXXXXXXX@developer.gserviceaccount.com"
@@ -28,6 +28,14 @@ widop_google_analytics:
 The `client_id`, `profile_id` and `private_key_file` parameters are mandatory while the `http_adapter` is optionnal.
 By default, this parameter is set to `widop_http_adapter.curl`. If you want to change the http adapter you can take a
 look at the [WidopHttpAdapterBundle](https://github.com/widop/WidopHttpAdapterBundle) documentation.
+
+For testing purpose, you can change the google analytics url used internally by the bundle to fetch you datas:
+
+``` yaml
+# app/config/config_test.yml
+widop_google_analytics:
+    service_url: http://your-own-url
+```
 
 ## The client
 

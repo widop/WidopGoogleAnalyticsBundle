@@ -46,6 +46,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('http_adapter')
                     ->defaultValue('widop_http_adapter.curl')
                 ->end()
+                ->scalarNode('service_url')
+                    ->defaultValue('https://accounts.google.com/o/oauth2/token')
+                ->end()
             ->end();
 
         return $treeBuilder;
