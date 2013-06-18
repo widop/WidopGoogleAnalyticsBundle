@@ -1,7 +1,8 @@
 # CHANGELOG
 
-### 1.0.2 (????-??-??
+### 1.0.2 (????-??-??)
 
+ * a29deb9 - Add fluent interface support
  * 98c4af8 - Fix branch alias
  * 0faf786 - Add branch alias
 
