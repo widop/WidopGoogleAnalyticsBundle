@@ -66,10 +66,14 @@ class Client
      * Sets the client ID.
      *
      * @param string $clientId The client ID.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Client The client.
      */
     public function setClientId($clientId)
     {
         $this->clientId = $clientId;
+        
+        return $this;
     }
 
     /**
@@ -88,6 +92,8 @@ class Client
      * @param string $privateKeyFile The absolute private key file path.
      *
      * @throws \InvalidArgumentException If the private key file does not exist.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Client The client.
      */
     public function setPrivateKeyFile($privateKeyFile)
     {
@@ -98,6 +104,8 @@ class Client
         }
 
         $this->privateKeyFile = $privateKeyFile;
+        
+        return $this;
     }
 
     /**
@@ -114,10 +122,14 @@ class Client
      * Sets the http adapter.
      *
      * @param \Widop\HttpAdapterBundle\Model\HttpAdapterInterface $httpAdapter The http adapter.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Client The client.
      */
     public function setHttpAdapter(HttpAdapterInterface $httpAdapter)
     {
         $this->httpAdapter = $httpAdapter;
+        
+        return $this;
     }
 
     /**
