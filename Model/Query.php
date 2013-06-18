@@ -89,10 +89,14 @@ class Query
      * Sets the google analytics query ids.
      *
      * @param string $ids The google analytics query ids.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function setIds($ids)
     {
         $this->ids = $ids;
+
+        return $this;
     }
 
     /**
@@ -119,10 +123,14 @@ class Query
      * Sets the google analytics query start date.
      *
      * @param \DateTime $startDate The google analytics query start date.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function setStartDate(\DateTime $startDate = null)
     {
         $this->startDate = $startDate;
+        
+        return $this;
     }
 
     /**
@@ -149,10 +157,14 @@ class Query
      * Sets the google analytics query end date.
      *
      * @param \DateTime $endDate The google analytics query end date.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function setEndDate(\DateTime $endDate = null)
     {
         $this->endDate = $endDate;
+        
+        return $this;
     }
 
     /**
@@ -179,6 +191,8 @@ class Query
      * Sets the google analytics query metrics.
      *
      * @param array $metrics The google analytics query metrics.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function setMetrics(array $metrics)
     {
@@ -187,16 +201,22 @@ class Query
         foreach ($metrics as $metric) {
             $this->addMetric($metric);
         }
+        
+        return $this;
     }
 
     /**
      * Adds a the google analytics metric to the query.
      *
      * @param string $metric The google analytics metric to add.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function addMetric($metric)
     {
         $this->metrics[] = $metric;
+        
+        return $this;
     }
 
     /**
@@ -223,6 +243,8 @@ class Query
      * Sets the google analytics query dimensions.
      *
      * @param array $dimensions The google analytics query dimensions.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function setDimensions(array $dimensions)
     {
@@ -231,16 +253,22 @@ class Query
         foreach ($dimensions as $dimension) {
             $this->addDimension($dimension);
         }
+        
+        return $this;
     }
 
     /**
      * Adds a google analytics query dimension.
      *
      * @param string $dimension the google analytics dimension to add.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function addDimension($dimension)
     {
         $this->dimensions[] = $dimension;
+        
+        return $this;
     }
 
     /**
@@ -267,6 +295,8 @@ class Query
      * Sets the google analytics query sorts.
      *
      * @param array $sorts The google analytics query sorts.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function setSorts(array $sorts)
     {
@@ -275,16 +305,22 @@ class Query
         foreach ($sorts as $sort) {
             $this->addSort($sort);
         }
+        
+        return $this;
     }
 
     /**
      * Adds a google analytics query sort.
      *
      * @param string $sort A google analytics query sort to add.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function addSort($sort)
     {
         $this->sorts[] = $sort;
+        
+        return $this;
     }
 
     /**
@@ -311,6 +347,8 @@ class Query
      * Sets the google analytics query filters.
      *
      * @param array $filters The google analytics query filters.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function setFilters(array $filters)
     {
@@ -319,16 +357,22 @@ class Query
         foreach ($filters as $filter) {
             $this->addFilter($filter);
         }
+        
+        return $this;
     }
 
     /**
      * Adds the google analytics filter.
      *
      * @param string $filter the google analytics filter to add.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function addFilter($filter)
     {
         $this->filters[] = $filter;
+        
+        return $this;
     }
 
     /**
@@ -355,10 +399,14 @@ class Query
      * Sets the google analytics query segment.
      *
      * @param string $segment The google analytics query segment.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function setSegment($segment)
     {
         $this->segment = $segment;
+        
+        return $this;
     }
 
     /**
@@ -375,10 +423,14 @@ class Query
      * Sets the google analytics query start index.
      *
      * @param integer $startIndex The google analytics start index.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function setStartIndex($startIndex)
     {
         $this->startIndex = $startIndex;
+        
+        return $this;
     }
 
     /**
@@ -395,10 +447,14 @@ class Query
      * Sets the google analytics query max result count.
      *
      * @param integer $maxResults The google analytics query max result count.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function setMaxResults($maxResults)
     {
         $this->maxResults = $maxResults;
+        
+        return $this;
     }
 
     /**
@@ -415,10 +471,14 @@ class Query
      * Sets the google analytics query prettyPrint option.
      *
      * @param boolean $prettyPrint The google analytics query pretty print option.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function setPrettyPrint($prettyPrint)
     {
         $this->prettyPrint = $prettyPrint;
+        
+        return $this;
     }
 
     /**
@@ -445,10 +505,14 @@ class Query
      * Sets the google analytics query callback.
      *
      * @param string The google analytics query callback.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Query The query.
      */
     public function setCallback($callback)
     {
         $this->callback = $callback;
+        
+        return $this;
     }
 
     /**
