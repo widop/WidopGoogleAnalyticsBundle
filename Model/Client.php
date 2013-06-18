@@ -20,9 +20,6 @@ use Widop\HttpAdapterBundle\Model\HttpAdapterInterface;
  */
 class Client
 {
-    /** @const The google OAuth Rest URL. */
-    const URL = 'https://accounts.google.com/o/oauth2/token';
-
     /** @const The google OAuth scope. */
     const SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
 
@@ -36,6 +33,9 @@ class Client
     protected $httpAdapter;
 
     /** @var string */
+    protected $url;
+
+    /** @var string */
     protected $accessToken;
 
     /**
@@ -44,12 +44,14 @@ class Client
      * @param string                                              $clientId       The client ID.
      * @param string                                              $privateKeyFile The absolute private key file path.
      * @param \Widop\HttpAdapterBundle\Model\HttpAdapterInterface $httpAdapter    The http adapter.
+     * @param string                                              $url            The google analytics service url.
      */
-    public function __construct($clientId, $privateKeyFile, HttpAdapterInterface $httpAdapter)
+    public function __construct($clientId, $privateKeyFile, HttpAdapterInterface $httpAdapter, $url)
     {
         $this->setClientId($clientId);
         $this->setPrivateKeyFile($privateKeyFile);
         $this->setHttpAdapter($httpAdapter);
+        $this->setUrl($url);
     }
 
     /**
@@ -72,7 +74,7 @@ class Client
     public function setClientId($clientId)
     {
         $this->clientId = $clientId;
-        
+
         return $this;
     }
 
@@ -104,7 +106,7 @@ class Client
         }
 
         $this->privateKeyFile = $privateKeyFile;
-        
+
         return $this;
     }
 
@@ -128,7 +130,31 @@ class Client
     public function setHttpAdapter(HttpAdapterInterface $httpAdapter)
     {
         $this->httpAdapter = $httpAdapter;
-        
+
+        return $this;
+    }
+
+    /**
+     * Gets the google analytics service url.
+     *
+     * @return string The google analytics service url.
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Sets the google analytics service url.
+     *
+     * @param string $url The google analytics service url.
+     *
+     * @return \Widop\GoogleAnalyticsBundle\Model\Client The client.
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
         return $this;
     }
 
@@ -149,7 +175,7 @@ class Client
                 'assertion'      => $this->generateJsonWebToken(),
             );
 
-            $response = json_decode($this->httpAdapter->postContent(self::URL, $headers, $content));
+            $response = json_decode($this->httpAdapter->postContent($this->url, $headers, $content));
 
             if (isset($response->error)) {
                 throw new \Exception(sprintf('Failed to retrieve access token (%s).', $response->error));
@@ -178,7 +204,7 @@ class Client
                 array(
                     'iss'   => $this->clientId,
                     'scope' => self::SCOPE,
-                    'aud'   => self::URL,
+                    'aud'   => $this->url,
                     'exp'   => $exp->getTimestamp(),
                     'iat'   => $iat->getTimestamp(),
                 )
