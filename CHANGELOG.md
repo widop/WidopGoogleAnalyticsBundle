@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### 1.0.3 (????-??-??)
+
+ * f852731 - [Client] Make Google Analytics url configurable
+
 ### 1.0.2 (2013-06-18)
 
  * a29deb9 - Add fluent interface support
