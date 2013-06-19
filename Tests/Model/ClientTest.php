@@ -29,6 +29,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     /** @var string */
     protected $privateKeyFile;
 
+    /** @var string */
+    protected $url;
+
     /** @var \Widop\HttpAdapterBundle\Model\HttpAdapterInterface */
     protected $httpAdapterMock;
 
@@ -40,8 +43,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->clientId = 'client_id';
         $this->privateKeyFile = __DIR__.'/../Fixtures/certificate.p12';
         $this->httpAdapterMock = $this->getMock('Widop\HttpAdapterBundle\Model\HttpAdapterInterface');
+        $this->url = 'https://foo';
 
-        $this->client = new Client($this->clientId, $this->privateKeyFile, $this->httpAdapterMock);
+        $this->client = new Client($this->clientId, $this->privateKeyFile, $this->httpAdapterMock, $this->url);
     }
 
     /**
@@ -53,6 +57,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         unset($this->clientId);
         unset($this->privateKeyFile);
         unset($this->httpAdapterMock);
+        unset($this->url);
     }
 
     public function testDefaultState()
@@ -60,6 +65,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->clientId, $this->client->getClientId());
         $this->assertSame($this->privateKeyFile, $this->client->getPrivateKeyFile());
         $this->assertSame($this->httpAdapterMock, $this->client->getHttpAdapter());
+        $this->assertSame($this->url, $this->client->getUrl());
     }
 
     public function testAccessToken()
@@ -72,7 +78,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('postContent')
             ->with(
-                $this->equalTo('https://accounts.google.com/o/oauth2/token'),
+                $this->equalTo($this->url),
                 $this->equalTo(array('Content-Type' => 'application/x-www-form-urlencoded'))
             )
             ->will($this->returnValue(json_encode(array('access_token' => 'token'))));
