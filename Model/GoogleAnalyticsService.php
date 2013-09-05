@@ -76,7 +76,7 @@ class GoogleAnalyticsService
             throw new \Exception(
                 sprintf(
                     'An error occured when querying the google analytics service (%s).',
-                    $json['error']['message']
+                    isset($json['error']) ? $json['error']['message'] : 'Invalid json'
                 )
             );
         }
