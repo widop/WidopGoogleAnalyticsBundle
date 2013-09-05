@@ -128,7 +128,7 @@ class GoogleAnalyticsServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Exception
      */
-    public function testQueryError()
+    public function testQueryWithJsonError()
     {
         $this->clientMock
             ->expects($this->once())
@@ -146,6 +146,31 @@ class GoogleAnalyticsServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getContent')
             ->with($this->equalTo('uri'))
             ->will($this->returnValue(json_encode(array('error' => array('message' => 'error')))));
+
+        $this->service->query($this->queryMock);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testQueryWithHtmlError()
+    {
+        $this->clientMock
+            ->expects($this->once())
+            ->method('getAccessToken')
+            ->will($this->returnValue('token'));
+
+        $this->queryMock
+            ->expects($this->once())
+            ->method('build')
+            ->with($this->equalTo('token'))
+            ->will($this->returnValue('uri'));
+
+        $this->httpAdapterMock
+            ->expects($this->once())
+            ->method('getContent')
+            ->with($this->equalTo('uri'))
+            ->will($this->returnValue('<html></html>'));
 
         $this->service->query($this->queryMock);
     }
