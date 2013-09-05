@@ -1,6 +1,6 @@
 # CHANGELOG
 
-### 1.0.3 (????-??-??)
+### 1.0.3 (2013-09-05)
 
  * e4c3663 - [Doc] Fix profile_id explanation
  * 9c8f7bc - [Service] Check if the response is valid json
