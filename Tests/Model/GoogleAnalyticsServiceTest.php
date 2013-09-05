@@ -126,7 +126,7 @@ class GoogleAnalyticsServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException Widop\GoogleAnalyticsBundle\Exception\GoogleAnalyticsException
      */
     public function testQueryWithJsonError()
     {
@@ -151,7 +151,7 @@ class GoogleAnalyticsServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException Widop\GoogleAnalyticsBundle\Exception\GoogleAnalyticsException
      */
     public function testQueryWithHtmlError()
     {
