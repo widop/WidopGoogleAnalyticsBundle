@@ -11,6 +11,7 @@
 
 namespace Widop\GoogleAnalyticsBundle\Model;
 
+use Widop\GoogleAnalyticsBundle\Exception\GoogleAnalyticsException;
 use Widop\HttpAdapterBundle\Model\HttpAdapterInterface;
 
 /**
@@ -93,16 +94,14 @@ class Client
      *
      * @param string $privateKeyFile The absolute private key file path.
      *
-     * @throws \InvalidArgumentException If the private key file does not exist.
+     * @throws \Widop\GoogleAnalyticsBundle\Exception\GoogleAnalyticsException If the private key file does not exist.
      *
      * @return \Widop\GoogleAnalyticsBundle\Model\Client The client.
      */
     public function setPrivateKeyFile($privateKeyFile)
     {
         if (!file_exists($privateKeyFile)) {
-            throw new \InvalidArgumentException(
-                sprintf('The PKCS 12 certificate "%s" does not exist.', $privateKeyFile)
-            );
+            throw GoogleAnalyticsException::invalidPrivateKeyFile($privateKeyFile);
         }
 
         $this->privateKeyFile = $privateKeyFile;
@@ -161,7 +160,7 @@ class Client
     /**
      * Gets the google OAuth access token.
      *
-     * @throws \Exception If the access token can not be retrieved.
+     * @throws \Widop\GoogleAnalyticsBundle\Exception\GoogleAnalyticsException If the access token can not be retrieved.
      *
      * @return string The access token.
      */
@@ -178,7 +177,7 @@ class Client
             $response = json_decode($this->httpAdapter->postContent($this->url, $headers, $content));
 
             if (isset($response->error)) {
-                throw new \Exception(sprintf('Failed to retrieve access token (%s).', $response->error));
+                throw GoogleAnalyticsException::invalidAccessToken($response->error);
             }
 
             $this->accessToken = $response->access_token;
@@ -221,36 +220,36 @@ class Client
      *
      * @param string $jsonWebToken The JWT content.
      *
-     * @throws \Exception If an error occured when generating the signature.
+     * @throws \Widop\GoogleAnalyticsBundle\Exception\GoogleAnalyticsException If an error occured when generating the signature.
      *
      * @return string The JWT signature.
      */
     protected function generateSignature($jsonWebToken)
     {
         if (!function_exists('openssl_x509_read')) {
-            throw new \Exception('The openssl extension is required.');
+            throw GoogleAnalyticsException::invalidOpenSslExtension();
         }
 
         $certificate = file_get_contents($this->privateKeyFile);
 
         $certificates = array();
         if (!openssl_pkcs12_read($certificate, $certificates, 'notasecret')) {
-            throw new \Exception('An error occured when parsing the PKCS 12 certificate.');
+            throw GoogleAnalyticsException::invalidPKCS12File();
         }
 
         if (!isset($certificates['pkey']) || !$certificates['pkey']) {
-            throw new \Exception('The PKCS 12 certificate is not valid.');
+            throw GoogleAnalyticsException::invalidPKCS12Format();
         }
 
         $ressource = openssl_pkey_get_private($certificates['pkey']);
 
         if (!$ressource) {
-            throw new \Exception('An error occurend when fetching the PKCS 12 private key.');
+            throw GoogleAnalyticsException::invalidPKCS12PKey();
         }
 
         $signature = null;
         if (!openssl_sign($jsonWebToken, $signature, $ressource, 'sha256')) {
-            throw new \Exception('An error occurend when validating the PKCS 12 certificate.');
+            throw GoogleAnalyticsException::invalidPKCS12Signature();
         }
 
         openssl_pkey_free($ressource);
