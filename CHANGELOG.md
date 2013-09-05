@@ -2,6 +2,8 @@
 
 ### 1.1.0 (????-??-??)
 
+ * efcc6c9 - Add dedicated exception
+
 ### 1.0.3 (2013-09-05)
 
  * e4c3663 - [Doc] Fix profile_id explanation
