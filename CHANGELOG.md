@@ -2,6 +2,7 @@
 
 ### 1.0.3 (????-??-??)
 
+ * 9c8f7bc - [Service] Check if the response is valid json
  * f852731 - [Client] Make Google Analytics url configurable
 
 ### 1.0.2 (2013-06-18)
