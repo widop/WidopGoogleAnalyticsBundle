@@ -2,6 +2,7 @@
 
 ### 1.0.3 (????-??-??)
 
+ * e4c3663 - [Doc] Fix profile_id explanation
  * 9c8f7bc - [Service] Check if the response is valid json
  * f852731 - [Client] Make Google Analytics url configurable
 
