@@ -91,7 +91,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         if (!function_exists('openssl_x509_read')) {
             $this->markTestSkipped('The "openssl_x509_read" function is not available.');
         } else {
-            $this->setExpectedException('\Exception');
+            $this->setExpectedException('Widop\GoogleAnalyticsBundle\Exception\GoogleAnalyticsException');
         }
 
         $this->httpAdapterMock
@@ -103,7 +103,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException Widop\GoogleAnalyticsBundle\Exception\GoogleAnalyticsException
      */
     public function testInvalidPrivateKeyFile()
     {
@@ -112,7 +112,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException Widop\GoogleAnalyticsBundle\Exception\GoogleAnalyticsException
      */
     public function testInvalidPkcs12Format()
     {

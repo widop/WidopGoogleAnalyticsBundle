@@ -11,6 +11,8 @@
 
 namespace Widop\GoogleAnalyticsBundle\Model;
 
+use Widop\GoogleAnalyticsBundle\Exception\GoogleAnalyticsException;
+
 /**
  * Google Analytics service.
  *
@@ -60,7 +62,7 @@ class GoogleAnalyticsService
      *
      * @param \Widop\GoogleAnalyticsBundle\Model\Query $query The google analytics query.
      *
-     * @throws \Exception If an error occured when querying the google analytics service.
+     * @throws \Widop\GoogleAnalyticsBundle\Exception\GoogleAnalyticsException If an error occured when querying the google analytics service.
      *
      * @return \Widop\GoogleAnalyticsBundle\Model\Response The google analytics response.
      */
@@ -69,16 +71,10 @@ class GoogleAnalyticsService
         $accessToken = $this->getClient()->getAccessToken();
         $uri = $query->build($accessToken);
         $content = $this->getClient()->getHttpAdapter()->getContent($uri);
-
         $json = json_decode($content, true);
 
         if (!is_array($json) || isset($json['error'])) {
-            throw new \Exception(
-                sprintf(
-                    'An error occured when querying the google analytics service (%s).',
-                    isset($json['error']) ? $json['error']['message'] : 'Invalid json'
-                )
-            );
+            throw GoogleAnalyticsException::invalidQuery(isset($json['error']) ? $json['error']['message'] : 'Invalid json');
         }
 
         return new Response($json);
