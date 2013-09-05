@@ -72,7 +72,7 @@ class GoogleAnalyticsService
 
         $json = json_decode($content, true);
 
-        if (isset($json['error'])) {
+        if (!is_array($json) || isset($json['error'])) {
             throw new \Exception(
                 sprintf(
                     'An error occured when querying the google analytics service (%s).',
