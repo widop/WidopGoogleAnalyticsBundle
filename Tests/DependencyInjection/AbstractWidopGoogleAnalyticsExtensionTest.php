@@ -60,7 +60,7 @@ abstract class AbstractWidopGoogleAnalyticsExtensionTest extends \PHPUnit_Framew
 
         $googleAnalytics = $this->container->get('widop_google_analytics');
 
-        $this->assertInstanceOf('Widop\GoogleAnalyticsBundle\Model\GoogleAnalyticsService', $googleAnalytics);
+        $this->assertInstanceOf('Widop\GoogleAnalytics\Service', $googleAnalytics);
         $this->assertSame('https://accounts.google.com/o/oauth2/token', $googleAnalytics->getClient()->getUrl());
         $this->assertSame('client_id', $googleAnalytics->getClient()->getClientId());
         $this->assertSame('certificate.p12', substr($googleAnalytics->getClient()->getPrivateKeyFile(), -15));
@@ -74,7 +74,7 @@ abstract class AbstractWidopGoogleAnalyticsExtensionTest extends \PHPUnit_Framew
 
         $query = $this->container->get('widop_google_analytics.query');
 
-        $this->assertInstanceOf('Widop\GoogleAnalyticsBundle\Model\Query', $query);
+        $this->assertInstanceOf('Widop\GoogleAnalytics\Query', $query);
         $this->assertSame('profile_id', $query->getIds());
     }
 
@@ -85,7 +85,7 @@ abstract class AbstractWidopGoogleAnalyticsExtensionTest extends \PHPUnit_Framew
 
         $googleAnalytics = $this->container->get('widop_google_analytics');
 
-        $this->assertInstanceOf('Widop\GoogleAnalyticsBundle\Model\GoogleAnalyticsService', $googleAnalytics);
+        $this->assertInstanceOf('Widop\GoogleAnalytics\Service', $googleAnalytics);
         $this->assertSame('https://foo', $googleAnalytics->getClient()->getUrl());
     }
 
