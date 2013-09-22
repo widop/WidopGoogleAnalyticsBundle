@@ -2,7 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/widop/WidopGoogleAnalyticsBundle.png)](http://travis-ci.org/widop/WidopGoogleAnalyticsBundle)
 
-The `WidopGoogleAnalyticsBundle` provides a way to use certificate-based authentication in server-to-server
+The Wid'op Google Analytics bundle provides a way to use certificate-based authentication in server-to-server
 interactions with google analytics.
 
 In other words, no user interaction will be required thanks to the "PKCS 12" certificate and you will be able to
