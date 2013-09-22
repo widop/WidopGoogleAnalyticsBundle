@@ -2,6 +2,7 @@
 
 ### 1.1.0 (????-??-??)
 
+ * 3602d5c - Extract business classes
  * efcc6c9 - Add dedicated exception
 
 ### 1.0.3 (2013-09-05)
