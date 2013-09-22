@@ -16,7 +16,8 @@
     ],
     "require": {
         "symfony/framework-bundle": "2.*",
-        "widop/http-adapter-bundle": "1.0.*"
+        "widop/google-analytics": "1.0.*",
+        "widop/http-adapter-bundle": "1.*"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"

@@ -6,9 +6,9 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <parameters>
-        <parameter key="widop_google_analytics.class">Widop\GoogleAnalyticsBundle\Model\GoogleAnalyticsService</parameter>
-        <parameter key="widop_google_analytics.client.class">Widop\GoogleAnalyticsBundle\Model\Client</parameter>
-        <parameter key="widop_google_analytics.query.class">Widop\GoogleAnalyticsBundle\Model\Query</parameter>
+        <parameter key="widop_google_analytics.class">Widop\GoogleAnalytics\Service</parameter>
+        <parameter key="widop_google_analytics.client.class">Widop\GoogleAnalytics\Client</parameter>
+        <parameter key="widop_google_analytics.query.class">Widop\GoogleAnalytics\Query</parameter>
     </parameters>
 
     <services>
