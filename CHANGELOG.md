@@ -1,6 +1,6 @@
 # CHANGELOG
 
-### 1.1.0 (????-??-??)
+### 1.1.0 (2013-09-22)
 
  * 3602d5c - Extract business classes
  * efcc6c9 - Add dedicated exception
